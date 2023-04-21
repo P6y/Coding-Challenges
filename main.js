@@ -20,7 +20,7 @@ const initialiseDisplay = () => {
 
 const loadChallenge = async index => {
      try {
-        const {default: run, stop} = await import(`./CC/${index}.js`)
+        const {run, stop} = await import(`./CC/${index}.js`)
         return {run, stop}
      } catch (error) {
         console.error(error)

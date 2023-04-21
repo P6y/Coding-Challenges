@@ -1,7 +1,7 @@
 let animationFrameId
 export const stop = () => cancelAnimationFrame(animationFrameId)
 
-export default async () => {
+export const run = async () => {
     // window setup
     const main = document.getElementById('main')
     const canvas = document.createElement('canvas')
