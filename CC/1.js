@@ -1,3 +1,6 @@
+let animationFrameId
+export const stop = () => cancelAnimationFrame(animationFrameId)
+
 export default async () => {
     // window setup
     const main = document.getElementById('main')
@@ -5,12 +8,12 @@ export default async () => {
     const context = canvas.getContext('2d')
     const width = canvas.width = window.innerWidth
     const height = canvas.height = window.innerHeight
-    
+
     // star
     const {default: Star} = await import('./1_star.js')
     const stars = []
     const count = 500
-    
+
     // settings
     const backgroundColour = '#000'
     const stepRangeNormal = 0.25
@@ -20,11 +23,11 @@ export default async () => {
     const maxSize = 25
     const minDecay = 0
     const maxDecay = 50
-    
+
     let stepRange = stepRangeNormal
     let size = 2.5
     let decay = 1.75
-    
+
     // keys
     let shift
     let control
@@ -32,12 +35,12 @@ export default async () => {
     let up
     let right
     let down
-    
+
     const update = () => {
         if (left || right || up || down) { // guard => stepRange = stepRangeNormal
             if (shift) stepRange = stepRangeSmall
             else if (control) stepRange = stepRangeBig
-    
+
             if (left ^ right) {
                 if (left) {
                     if (decay - stepRange <= minDecay) decay = minDecay
@@ -47,7 +50,7 @@ export default async () => {
                     else decay += stepRange
                 }
             }
-        
+
             if (up ^ down) {
                 if (up) {
                     if (size + stepRange >= maxSize) size = maxSize
@@ -61,10 +64,10 @@ export default async () => {
         } else {
             stepRange = stepRangeNormal
         }
-    
+
         for (let i = 0; i < stars.length; i++) stars[i].update(decay)
     }
-    
+
     const draw = () => {
         context.fillStyle = "rgba(0, 0, 0, 0.5)"
         context.fillRect(-0.5 * width, -0.5 * height, width, height)
@@ -72,11 +75,11 @@ export default async () => {
         context.fillStyle = Star.colour
         for (let i = 0; i < stars.length; i++) stars[i].draw(context)
     }
-    
+
     const loop = () => {
         update()
         draw()
-        requestAnimationFrame(loop)
+        animationFrameId = requestAnimationFrame(loop)
     }
 
     const setup = () => {
@@ -85,7 +88,7 @@ export default async () => {
 
         context.fillStyle = backgroundColour
         context.fillRect(0, 0, width, height)
-        
+
         // centre screen
         context.translate(0.5 * width, 0.5 * height)
 
@@ -99,23 +102,21 @@ export default async () => {
         document.body.addEventListener('keydown', ({key}) => {
             if (key === 'Shift') shift = true
             if (key === 'Control' || key === 'Alt') control = true
-        
+
             if (key === 'ArrowLeft') left = true
             if (key === 'ArrowUp') up = true
             if (key === 'ArrowRight') right = true
             if (key === 'ArrowDown') down = true
-        
         })
 
         document.body.addEventListener('keyup', ({key}) => {
             if (key === 'Shift') shift = false
             if (key === 'Control' || key === 'Alt') control = false
-        
+
             if (key === 'ArrowLeft') left = false
             if (key === 'ArrowUp') up = false
             if (key === 'ArrowRight') right = false
             if (key === 'ArrowDown') down = false
-        
         })
 
         loop()

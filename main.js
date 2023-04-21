@@ -1,4 +1,4 @@
-const initaliseChallanges = () =>
+const initaliseChallenges = () =>
     [
         [1, 'Starfield'],
     ].reduce(
@@ -9,40 +9,46 @@ const initaliseChallanges = () =>
         [[], []]
     )
 
-const initialiseDev = () => {
+const initialiseDisplay = () => {
     const number = document.getElementById('number')
     const name = document.getElementById('name')
-    return (id, challange) => {
+    return (id, challenge) => {
         number.textContent = id
-        name.textContent = challange
+        name.textContent = challenge
     }
 }
 
-const loadChallange = index => {
-     import(`./CC/${index}.js`)
-        .then(({default: main}) => main())
-        .catch(error => console.error(error.message))
+const loadChallenge = async index => {
+     try {
+        const {default: run, stop} = await import(`./CC/${index}.js`)
+        return {run, stop}
+     } catch (error) {
+        console.error(error)
+     }
 }
 
 const main = () => {
-    const [challangeIds, challangeNames] = initaliseChallanges()
-    let challangeIndex = 0
+    const [challengeIds, challengeNames] = initaliseChallenges()
+    let challengeIndex = 0
+    let activeChallenge = {}
 
-    const setChallange = initialiseDev()
-    setChallange(challangeIds[challangeIndex], challangeNames[challangeIndex])
+    const setChallengeDisplay = initialiseDisplay()
+    setChallengeDisplay(challengeIds[challengeIndex], challengeNames[challengeIndex])
 
     document.getElementById('previous').addEventListener('click', () => {
-        if (--challangeIndex < 0) challangeIndex = challangeIds.length - 1
-        setChallange(challangeIds[challangeIndex], challangeNames[challangeIndex])
+        if (--challengeIndex < 0) challengeIndex = challengeIds.length - 1
+        setChallengeDisplay(challengeIds[challengeIndex], challengeNames[challengeIndex])
     })
     
     document.getElementById('next').addEventListener('click', () => {
-        if (++challangeIndex >= challangeIds.length) challangeIndex = 0
-        setChallange(challangeIds[challangeIndex], challangeNames[challangeIndex])
+        if (++challengeIndex >= challengeIds.length) challengeIndex = 0
+        setChallengeDisplay(challengeIds[challengeIndex], challengeNames[challengeIndex])
     })
 
-    document.getElementById('load').addEventListener('click', () => {
-        loadChallange(challangeIds[challangeIndex])
+    document.getElementById('load').addEventListener('click', async () => {
+        if (activeChallenge.stop != undefined) activeChallenge.stop()
+        activeChallenge = await loadChallenge(challengeIds[challengeIndex])
+        activeChallenge.run()
     })
 }
 
