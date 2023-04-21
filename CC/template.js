@@ -19,7 +19,7 @@ export const run = async () => {
         // clear
         // context.clearRect(0.5 * width, 0.5 * height, width, height)
         context.clearRect(0, 0, width, height)
-        
+
         // background
         context.fillStyle = backgroundColour
         // context.fillRect(0.5 * width, 0.5 * height, width, height)
