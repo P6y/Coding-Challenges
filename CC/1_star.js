@@ -1,4 +1,4 @@
-export default class Star {
+export class Star {
     static colour = '#FFF'
     static width
     static height

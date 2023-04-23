@@ -9,11 +9,6 @@ export const run = async () => {
     const width = canvas.width = window.innerWidth
     const height = canvas.height = window.innerHeight
 
-    // star
-    const {default: Star} = await import('./1_star.js')
-    const stars = []
-    const count = 500
-
     // settings
     const backgroundColour = '#000'
     const stepRangeNormal = 0.25
@@ -36,6 +31,11 @@ export const run = async () => {
     let up = false
     let right = false
     let down = false
+
+    // star
+    const {Star} = await import('./1_star.js')
+    const stars = []
+    const count = 500
 
     const update = () => {
         if (left || right || up || down) { // guard => stepRange = stepRangeNormal

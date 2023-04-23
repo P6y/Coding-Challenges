@@ -1,5 +1,5 @@
 export class Snake {
-    static #colour = '#FFF'
+    static #colour = '#fff'
 
     constructor (bounds, tileSize) {
         this.tileSize = tileSize
@@ -16,7 +16,7 @@ export class Snake {
         this.size = 0
     }
 
-    setDirection(direction) {
+    setDirection (direction) {
         if (
             direction.x == 1 && this.direction.x == -1
             || direction.x == -1 && this.direction.x == 1
@@ -26,7 +26,7 @@ export class Snake {
         this.nextDirection = direction
     }
 
-    #handleSize(food) {
+    #handleSize (food) {
         if (food.x == this.x && food.y == this.y) {
             this.size++
             food.update(this)
@@ -38,14 +38,14 @@ export class Snake {
         }
     }
 
-    #handleTail() {
+    #handleTail () {
         if (this.size) {
             this.tail.unshift({x: this.x, y: this.y})
             this.tail = this.tail.slice(0, this.size)
         }
     }
 
-    #handleMovement() {
+    #handleMovement () {
         if (this.nextDirection) this.direction = this.nextDirection
 
         this.x += this.direction.x
@@ -57,7 +57,7 @@ export class Snake {
         else if (this.y < 0) this.y = this.tilesY - 1
     }
 
-    #checkTailCollision() {
+    #checkTailCollision () {
         if (this.tail.some(({x, y}) => x == this.x && y == this.y)) {
             this.size = 0
             this.tail = []
