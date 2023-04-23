@@ -2,6 +2,7 @@ const initaliseChallenges = () =>
     [
         [1, 'Starfield'],
         [2, '2D Manger Sponge Fractal'],
+        [3, 'Snake'],
     ].reduce(
         (accumulator, currentValue) => (
             currentValue.forEach((element, index) => accumulator[index].push(element)),
@@ -21,8 +22,7 @@ const initialiseDisplay = () => {
 
 const loadChallenge = async index => {
      try {
-        const {run, stop} = await import(`./CC/${index}.js`)
-        return {run, stop}
+        return await import(`./CC/${index}.js`)
      } catch (error) {
         console.error(error)
      }
@@ -30,11 +30,16 @@ const loadChallenge = async index => {
 
 const main = () => {
     const [challengeIds, challengeNames] = initaliseChallenges()
-    let challengeIndex = 0
+    let challengeIndex = challengeIds.length - 1
     let activeChallenge = {}
 
     const setChallengeDisplay = initialiseDisplay()
     setChallengeDisplay(challengeIds[challengeIndex], challengeNames[challengeIndex])
+
+    if (true) (async () => {
+        activeChallenge = await loadChallenge(challengeIds[challengeIndex])
+        activeChallenge.run()
+    })()
 
     document.getElementById('previous').addEventListener('click', () => {
         if (--challengeIndex < 0) challengeIndex = challengeIds.length - 1
@@ -47,7 +52,7 @@ const main = () => {
     })
 
     document.getElementById('load').addEventListener('click', async () => {
-        if (activeChallenge.stop != undefined) activeChallenge.stop()
+        activeChallenge.stop?.()
         activeChallenge = await loadChallenge(challengeIds[challengeIndex])
         activeChallenge.run()
     })
