@@ -29,12 +29,13 @@ export const run = async () => {
     let decay = 1.75
 
     // keys
-    let shift
-    let control
-    let left
-    let up
-    let right
-    let down
+    let pause = false
+    let shift = false
+    let control = false
+    let left = false
+    let up = false
+    let right = false
+    let down = false
 
     const update = () => {
         if (left || right || up || down) { // guard => stepRange = stepRangeNormal
@@ -77,8 +78,10 @@ export const run = async () => {
     }
 
     const loop = () => {
-        update()
-        draw()
+        if (!pause) {
+            update()
+            draw()
+        }
         animationFrameId = requestAnimationFrame(loop)
     }
 
@@ -110,6 +113,7 @@ export const run = async () => {
         })
 
         document.body.addEventListener('keyup', ({key}) => {
+            if (key === 'p') pause = !pause
             if (key === 'Shift') shift = false
             if (key === 'Control' || key === 'Alt') control = false
 
@@ -119,7 +123,7 @@ export const run = async () => {
             if (key === 'ArrowDown') down = false
         })
 
-        loop()
+        requestAnimationFrame(loop)
     }
 
     setup()

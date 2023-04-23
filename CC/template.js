@@ -11,6 +11,9 @@ export const run = async () => {
 
     const backgroundColour = '#000'
 
+    let previousTime = 0
+    let pause = false
+
     const update = () => {
 
     }
@@ -26,10 +29,16 @@ export const run = async () => {
         context.fillRect(0, 0, width, height)
     }
 
-    const loop = () => {
-        update()
-        draw()
-        requestAnimationFrame(loop)
+    const loop = timestamp => {
+        if (!pause) {
+            const deltaTime = timestamp - previousTime
+            if (deltaTime >= targetTime) {
+                previousTime = timestamp
+                update()
+                draw()
+            }
+        }
+        animationFrameId = requestAnimationFrame(loop)
     }
 
     const setup = () => {
@@ -38,7 +47,11 @@ export const run = async () => {
 
         console.debug('_js')
 
-        loop()
+        document.body.addEventListener('keydown', ({key}) => {
+			if (key === 'p') pause = !pause
+        })
+
+        requestAnimationFrame(loop)
     }
 
     setup()

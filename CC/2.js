@@ -1,4 +1,4 @@
-export const run = async () => {
+export const run = () => {
     // window setup
     const main = document.getElementById('main')
     const canvas = document.createElement('canvas')

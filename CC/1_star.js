@@ -24,7 +24,6 @@ export default class Star {
     }
 
     draw (context) {
-        context.canvas.width
         const x = (this.x / (this.z - 1)) * Star.width
         if (!this.#inBounds(x, Star.width)) {
             this.#populate()
