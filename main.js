@@ -3,6 +3,7 @@ const initaliseChallenges = () =>
         [1, 'Starfield'],
         [2, '2D Manger Sponge Fractal'],
         [3, 'Snake'],
+        [4, 'Purple Rain'],
     ].reduce(
         (accumulator, currentValue) => (
             currentValue.forEach((element, index) => accumulator[index].push(element)),
