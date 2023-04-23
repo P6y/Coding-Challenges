@@ -10,6 +10,8 @@ export const run = async () => {
     const height = canvas.height = window.innerHeight
 
     const backgroundColour = '#000'
+    const fps = 60
+    const targetTime = 1_000 / fps
 
     let previousTime = 0
     let pause = false
