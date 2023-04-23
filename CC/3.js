@@ -35,8 +35,11 @@ export const run = async () => {
         context.fillStyle = backgroundColour
         context.fillRect(-0.5 * (width - bounds.x), -0.5 * (height - bounds.y), width, height)
         
-        context.fillStyle = "hsl(" + boundsHue++ + ", 100%, 15%)";
+        context.fillStyle = "hsl(" + boundsHue + ", 25%, 20%)";
+        context.strokeStyle = "hsl(" + boundsHue++ + ", 50%, 50%)";
+
         context.fillRect(0, 0, bounds.x, bounds.y)
+        context.strokeRect(-0.5 * context.lineWidth, -0.5 * context.lineWidth, bounds.x + context.lineWidth, bounds.y + context.lineWidth)
 
         food.draw(context)
         python.draw(context)
@@ -59,12 +62,15 @@ export const run = async () => {
         main.appendChild(canvas)
 
         context.translate(0.5 * (width - bounds.x), 0.5 * (height - bounds.y))
+        context.lineWidth = 0.5 * tileSize
+        context.lineJoin = "round"
 
         document.body.addEventListener('keydown', ({key}) => {
             if (key === 'ArrowLeft') python.setDirection({x: -1, y: 0})
 			if (key === 'ArrowUp') python.setDirection({x: 0, y: -1})
 			if (key === 'ArrowRight') python.setDirection({x: 1, y: 0})
 			if (key === 'ArrowDown') python.setDirection({x: 0, y: 1})
+            if (key === 'r') python.rainbowmode = true
 
 			if (key === 'p') pause = !pause
 			if (key === '+') grow = true

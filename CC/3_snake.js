@@ -10,6 +10,8 @@ export class Snake {
         this.y = this.tilesY / 2
         this.direction = {x: 1, y: 0}
 
+        this.rainbowmode = false
+        this.hue = 0
         this.tail = []
         this.size = 0
     }
@@ -59,6 +61,7 @@ export class Snake {
         if (this.tail.some(({x, y}) => x == this.x && y == this.y)) {
             this.size = 0
             this.tail = []
+            this.rainbowmode = false
         }
     }
 
@@ -67,16 +70,17 @@ export class Snake {
         this.#handleTail()
         this.#handleMovement()
         this.#checkTailCollision()
+        this.hue += 5
     }
 
     draw (context) {
-        context.fillStyle = Snake.#colour
+        context.fillStyle = this.rainbowmode ? "hsl(" + this.hue + ", 100%, 80%)" : Snake.#colour
         context.fillRect(1 + this.x * this.tileSize, 1 + this.y * this.tileSize, this.tileSize - 2, this.tileSize - 2)
-
+        
         this.tail.forEach(({x, y}, i) => {
+            if (this.rainbowmode) context.fillStyle = "hsl(" + (this.hue + i * 5) + ", 100%, 75%)"
             if (this.size - i <= 3) {
                 const pad = 7 - this.size + i
-                console.debug(pad)
                 context.fillRect(pad + x * this.tileSize, pad + y * this.tileSize, this.tileSize - 2 * pad, this.tileSize - 2 * pad)
             }
             else context.fillRect(3 + x * this.tileSize, 3 + y * this.tileSize, this.tileSize - 6, this.tileSize - 6)
