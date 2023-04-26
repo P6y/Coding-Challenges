@@ -87,7 +87,9 @@ export const run = async () => {
 
     const setup = () => {
         main.textContent = null
+        canvas.setAttribute('tabindex', 0)
         main.appendChild(canvas)
+        canvas.focus()
 
         context.fillStyle = backgroundColour
         context.fillRect(0, 0, width, height)
@@ -102,7 +104,7 @@ export const run = async () => {
         for (let i = 0; i < count; i++) stars[i] = new Star()
 
         // attach listeners
-        document.body.addEventListener('keydown', ({key}) => {
+        canvas.addEventListener('keydown', ({key}) => {
             if (key === 'Shift') shift = true
             if (key === 'Control' || key === 'Alt') control = true
 
@@ -112,7 +114,7 @@ export const run = async () => {
             if (key === 'ArrowDown') down = true
         })
 
-        document.body.addEventListener('keyup', ({key}) => {
+        canvas.addEventListener('keyup', ({key}) => {
             if (key === 'p') pause = !pause
             if (key === 'Shift') shift = false
             if (key === 'Control' || key === 'Alt') control = false

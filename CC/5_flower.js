@@ -3,7 +3,7 @@ export class Flower {
     static width
     static height
     static size = 25
-    static speed = 2
+    static speed = 1
     static y = 2 * this.size
 
     constructor (x) {
@@ -24,7 +24,6 @@ export class Flower {
     }
 
     hit () {
-        console.debug('Splash')
         this.size -= 5
         if (this.size <= 0) this.toRemove = true
     }

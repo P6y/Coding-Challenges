@@ -59,13 +59,15 @@ export const run = async () => {
 
     const setup = () => {
         main.textContent = null
+        canvas.setAttribute('tabindex', 0)
         main.appendChild(canvas)
+        canvas.focus()
 
         context.translate(0.5 * (width - bounds.x), 0.5 * (height - bounds.y))
         context.lineWidth = 0.5 * tileSize
         context.lineJoin = "round"
 
-        document.body.addEventListener('keydown', ({key}) => {
+        canvas.addEventListener('keydown', ({key}) => {
             if (key === 'ArrowLeft') python.setDirection({x: -1, y: 0})
 			if (key === 'ArrowUp') python.setDirection({x: 0, y: -1})
 			if (key === 'ArrowRight') python.setDirection({x: 1, y: 0})

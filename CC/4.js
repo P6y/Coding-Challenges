@@ -47,13 +47,15 @@ export const run = async () => {
 
     const setup = () => {
         main.textContent = null
+        canvas.setAttribute('tabindex', 0)
         main.appendChild(canvas)
+        canvas.focus()
 
         for (let i = 0; i < countDrops; i++) {
             drops[i] = new Drop()
         }
 
-        document.body.addEventListener('keydown', ({key}) => {
+        canvas.addEventListener('keydown', ({key}) => {
 			if (key === 'p') pause = !pause
         })
 

@@ -53,7 +53,9 @@ export const run = async () => {
 
     const setup = () => {
         main.textContent = null
+        canvas.setAttribute('tabindex', 0)
         main.appendChild(canvas)
+        canvas.focus()
 
         const flowersInRow = Math.ceil((width - 200) / (2 * Flower.size + 50))
         const spacing = (width - 200) / (flowersInRow - 1) - 2 * Flower.size
@@ -61,14 +63,14 @@ export const run = async () => {
             flowers.push(new Flower(100 + i * (2 * Flower.size + spacing)))
         }
 
-        document.body.addEventListener('keydown', ({key}) => {
+        canvas.addEventListener('keydown', ({key}) => {
 			if (key === 'p') pause = !pause
 			if (key === 'ArrowLeft') left = true
 			if (key === 'ArrowRight') right = true
 			if (key === ' ') space = true
         })
 
-        document.body.addEventListener('keyup', ({key}) => {
+        canvas.addEventListener('keyup', ({key}) => {
 			if (key === 'ArrowLeft') left = false
 			if (key === 'ArrowRight') right = false
 			if (key === ' ') space = false

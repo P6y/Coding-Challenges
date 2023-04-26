@@ -49,7 +49,9 @@ export const run = () => {
 
     const setup = () => {
         main.textContent = null
+        canvas.setAttribute('tabindex', 0)
         main.appendChild(canvas)
+        canvas.focus()
 
         context.fillStyle = backgroundColour
         context.fillRect(0, 0, width, height)
@@ -60,7 +62,7 @@ export const run = () => {
 
         const updateQueuedThrottle = doQueuedThrottle(draw, 75)
 
-        document.body.addEventListener('keydown', ({key}) => {
+        canvas.addEventListener('keydown', ({key}) => {
             if (key === 'ArrowLeft' && iterations) iterations--
             if (key === 'ArrowRight') iterations++
 

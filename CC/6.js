@@ -41,21 +41,23 @@ export const run = async () => {
 
     const setup = () => {
         main.textContent = null
+        canvas.setAttribute('tabindex', 0)
         main.appendChild(canvas)
+        canvas.focus()
 
         for (let i = 0; i < 3; i++)
             cells.push(new Cell(100 + (width - 200) * Math.random(), 100 + (height - 200) * Math.random()))
 
-        document.body.addEventListener('keydown', ({key}) => {
-			if (key === 'p') pause = !pause
+        canvas.addEventListener('keydown', ({key}) => {
+            if (key === 'p') pause = !pause
 			if (key === ' ') for (let i = cells.length - 1; i >= 0; i--) {
                 cells.push(cells[i].mitosis())
                 cells.push(cells[i].mitosis())
                 cells.splice(i, 1)
             }
         })
-
-        document.body.addEventListener('click', ({x, y}) => {
+        
+        canvas.addEventListener('click', ({x, y}) => {
             for (let i = cells.length - 1; i >= 0; i--) {
                 if (cells[i].isClicked(x, y)) {
                     cells.push(cells[i].mitosis())
