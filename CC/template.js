@@ -49,6 +49,8 @@ export const run = async () => {
         main.appendChild(canvas)
         canvas.focus()
 
+        // context.translate(0.5 * width, 0.5 * height)
+
         console.debug('_js')
 
         canvas.addEventListener('keydown', ({key}) => {
